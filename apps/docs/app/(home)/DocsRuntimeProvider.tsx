@@ -15,10 +15,13 @@ export function DocsRuntimeProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const assistantCloud = new AssistantCloud({
-    baseUrl: process.env["NEXT_PUBLIC_ASSISTANT_BASE_URL"]!,
-    anonymous: true,
-  });
+  // Only initialize cloud if the required environment variable is set
+  const assistantCloud = process.env["NEXT_PUBLIC_ASSISTANT_BASE_URL"]
+    ? new AssistantCloud({
+        baseUrl: process.env["NEXT_PUBLIC_ASSISTANT_BASE_URL"]!,
+        anonymous: true,
+      })
+    : undefined;
 
   const runtime = useChatRuntime({
     sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithToolCalls,
