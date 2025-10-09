@@ -45,3 +45,9 @@ packages/*/generated
 __pycache__
 
 .langgraph_api
+
+# GitHub Spec Kit - https://github.com/github/spec-kit
+.specify/
+
+# Cursor
+.cursor
