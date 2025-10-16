@@ -1,0 +1,269 @@
+---
+title: Modal
+---
+
+import { Step, Steps } from "fumadocs-ui/components/steps";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import { Callout } from "fumadocs-ui/components/callout";
+import { Card, Cards } from "fumadocs-ui/components/card";
+
+## How the Example Works
+
+The Modal example demonstrates how to implement a floating chat interface using the `AssistantModal` component. This component provides a persistent chat button that transforms into a modal dialog when activated.
+
+### Component Overview
+
+The `AssistantModal` component creates a floating chat interface with the following key features:
+
+- **Floating Button**: A circular button positioned in the bottom-right corner of the screen
+- **State Transitions**: Smooth animations between open and closed states
+- **Modal Dialog**: A fixed-size modal that appears when the button is clicked
+- **Thread Integration**: Built-in chat functionality using the `Thread` component
+
+### Floating Button Behavior
+
+The floating button provides visual feedback through icon transitions and tooltip changes:
+
+- **Closed State**: Shows a `BotIcon` with "Open Assistant" tooltip
+- **Open State**: Shows a `ChevronDownIcon` with "Close Assistant" tooltip
+- **Animations**: Smooth scale and rotation transitions between states
+- **Hover Effects**: Button scales up on hover and down on click
+
+### Modal Positioning and Animations
+
+The modal is positioned using a fixed anchor point in the bottom-right corner:
+
+- **Position**: Fixed at `right-4 bottom-4` (16px from edges)
+- **Size**: Fixed dimensions of `h-[500px] w-[400px]`
+- **Z-Index**: `z-50` to ensure it appears above other content
+- **Animations**: Fade, slide, and zoom effects for smooth open/close transitions
+
+### Thread Component Integration
+
+The `Thread` component is integrated within the modal content to provide chat functionality:
+
+- **Background**: Inherits modal background styling
+- **Layout**: Full-width within the modal container
+- **Functionality**: Complete chat interface with message display and composer
+- **Responsive**: Adapts to the modal's fixed dimensions
+
+## What API is Being Used
+
+The Modal example uses the `AssistantModalPrimitive` API, which provides composable primitives for building modal interfaces.
+
+### AssistantModalPrimitive Components
+
+The `AssistantModalPrimitive` provides four main components:
+
+#### Root Component
+
+The root component manages the overall modal state and provides context to child components:
+
+```tsx
+<AssistantModalPrimitive.Root>
+  {/* Child components */}
+</AssistantModalPrimitive.Root>
+```
+
+#### Anchor Component
+
+The anchor component defines the positioning reference point for the modal:
+
+```tsx
+<AssistantModalPrimitive.Anchor className="fixed bottom-4 right-4 size-11">
+  {/* Trigger button */}
+</AssistantModalPrimitive.Anchor>
+```
+
+**Key Props:**
+
+- `className`: CSS classes for positioning and sizing
+- `sideOffset`: Distance from the anchor point (default: 16px)
+
+#### Trigger Component
+
+The trigger component wraps the button that opens and closes the modal:
+
+```tsx
+<AssistantModalPrimitive.Trigger asChild>
+  <AssistantModalButton />
+</AssistantModalPrimitive.Trigger>
+```
+
+**Key Props:**
+
+- `asChild`: Renders the trigger as a child component instead of a button
+
+#### Content Component
+
+The content component defines the modal dialog that appears when opened:
+
+```tsx
+<AssistantModalPrimitive.Content
+  sideOffset={16}
+  className="bg-popover text-popover-foreground data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:slide-out-to-bottom-1/2 data-[state=closed]:slide-out-to-right-1/2 data-[state=closed]:zoom-out data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:slide-in-from-bottom-1/2 data-[state=open]:slide-in-from-right-1/2 data-[state=open]:zoom-in z-50 h-[500px] w-[400px] overflow-clip rounded-xl border p-0 shadow-md outline-none"
+>
+  <Thread />
+</AssistantModalPrimitive.Content>
+```
+
+**Key Props:**
+
+- `sideOffset`: Distance from the anchor point
+- `className`: CSS classes for styling and animations
+- `data-state`: Automatically managed open/closed state
+
+### Complete Implementation Example
+
+Here's the complete implementation showing how all components work together:
+
+```tsx
+import { AssistantModalPrimitive } from "@assistant-ui/react";
+import { Thread } from "@/components/assistant-ui/thread";
+
+export const AssistantModal = () => {
+  return (
+    <AssistantModalPrimitive.Root>
+      <AssistantModalPrimitive.Anchor className="fixed bottom-4 right-4 size-11">
+        <AssistantModalPrimitive.Trigger asChild>
+          <AssistantModalButton />
+        </AssistantModalPrimitive.Trigger>
+      </AssistantModalPrimitive.Anchor>
+      <AssistantModalPrimitive.Content
+        sideOffset={16}
+        className="bg-popover text-popover-foreground data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:slide-out-to-bottom-1/2 data-[state=closed]:slide-out-to-right-1/2 data-[state=closed]:zoom-out data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:slide-in-from-bottom-1/2 data-[state=open]:slide-in-from-right-1/2 data-[state=open]:zoom-in z-50 h-[500px] w-[400px] overflow-clip rounded-xl border p-0 shadow-md outline-none"
+      >
+        <Thread />
+      </AssistantModalPrimitive.Content>
+    </AssistantModalPrimitive.Root>
+  );
+};
+```
+
+## Use Cases for the Example
+
+The Modal example is perfect for various chat interface scenarios where you need a persistent, accessible way for users to interact with an AI assistant.
+
+### Customer Support Scenarios
+
+**Customer Support Chat Widgets**
+
+- Provide instant help to website visitors
+- Reduce support ticket volume by answering common questions
+- Offer 24/7 availability for customer inquiries
+- Integrate with existing support systems and knowledge bases
+
+**Help Desk Implementations**
+
+- Internal employee support systems
+- IT help desk for technical issues
+- HR assistance for policy questions
+- Training and onboarding support
+
+### Q&A and Documentation Scenarios
+
+**Q&A Assistants on Websites**
+
+- Answer product-related questions
+- Provide technical documentation assistance
+- Help users navigate complex features
+- Reduce bounce rates by providing immediate help
+
+**Interactive Documentation Assistants**
+
+- Guide developers through API documentation
+- Provide code examples and explanations
+- Help troubleshoot integration issues
+- Offer contextual help based on current page
+
+**Floating Help Systems**
+
+- Contextual assistance for complex applications
+- Onboarding guidance for new users
+- Feature discovery and education
+- Progressive disclosure of advanced functionality
+
+### Mobile-Friendly Scenarios
+
+**Mobile Chat Interfaces**
+
+- Responsive design that works on all screen sizes
+- Touch-friendly button interactions
+- Optimized modal sizing for mobile devices
+- Accessible keyboard navigation
+
+**Cross-Platform Support**
+
+- Consistent experience across desktop and mobile
+- Progressive web app integration
+- Offline capability considerations
+- Platform-specific optimizations
+
+## Helpful Docs for Further Reading
+
+<Cards>
+  <Card
+    title="AssistantModalPrimitive API Reference"
+    href="/docs/api/assistant-modal-primitive"
+    description="Complete API documentation for all AssistantModalPrimitive components and props"
+  />
+  <Card
+    title="Thread Component Documentation"
+    href="/docs/components/thread"
+    description="Learn how to customize and extend the Thread component for chat functionality"
+  />
+  <Card
+    title="Getting Started Guide"
+    href="/docs/getting-started"
+    description="Step-by-step guide to setting up assistant-ui in your project"
+  />
+  <Card
+    title="Runtime Configuration"
+    href="/docs/runtime-configuration"
+    description="Configure runtime settings, providers, and middleware for your assistant"
+  />
+  <Card
+    title="Styling and Customization"
+    href="/docs/styling"
+    description="Customize the appearance and behavior of assistant-ui components"
+  />
+  <Card
+    title="Accessibility Guidelines"
+    href="/docs/accessibility"
+    description="Ensure your assistant interface meets WCAG 2.1 AA standards"
+  />
+</Cards>
+
+## Accessibility and Mobile Guidance
+
+### Mobile Device Compatibility
+
+The Modal example is designed to work seamlessly across all device types:
+
+- **Touch Interactions**: The floating button responds to touch events with appropriate feedback
+- **Responsive Sizing**: Modal dimensions adapt to different screen sizes
+- **Viewport Considerations**: Fixed positioning ensures the button remains accessible
+- **Performance**: Optimized animations for smooth performance on mobile devices
+
+### Keyboard Navigation
+
+The component supports full keyboard navigation:
+
+- **Tab Navigation**: Users can tab to the floating button
+- **Enter/Space Activation**: Standard button activation methods
+- **Escape Key**: Closes the modal when open
+- **Focus Management**: Proper focus handling when opening/closing the modal
+
+### Screen Reader Support
+
+The implementation includes comprehensive screen reader support:
+
+- **Semantic HTML**: Uses proper button elements and ARIA attributes
+- **State Announcements**: Screen readers announce open/closed states
+- **Tooltip Descriptions**: Clear descriptions for both open and closed states
+- **Hidden Text**: Screen reader-only text for additional context
+
+<Callout type="info">
+  **Pro Tip**: Always test your modal implementation with screen readers and
+  keyboard navigation to ensure accessibility compliance.
+</Callout>
